@@ -1,0 +1,28 @@
+[
+    {
+        "path": "/cobranza",
+        "title": "Cobranza Autos",
+        "type": "sub",
+        "icontype": "directions_car",
+        "collapse": "cobranza-autos",
+        "children:": [
+            {"path": "lista-polizas", "title": "Lista de Pólizas", "ab":"L"}
+        ]
+    },
+    {
+        "path": "/cobranza/calendario",
+        "title": "Calendario",
+        "type": "link",
+        "icontype": "calendar_month"
+       
+    },
+    {
+        "path": "/cobranza/grafico",
+        "title": "Gráficos",
+        "type": "link",
+        "icontype": "bar_chart_4_bars"
+       
+    }
+]
+
+

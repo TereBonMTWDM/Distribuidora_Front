@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "qa-inverser-admin-d9dc6",
+    "inverser-alias": "inverser-admin",
+    "qa": "qa-inverser-admin-d9dc6"
+  },
+  "targets": {
+    "inverser-front": {
+      "hosting": {
+        "inverser-admin": [
+          "inverser-admin"
+        ]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

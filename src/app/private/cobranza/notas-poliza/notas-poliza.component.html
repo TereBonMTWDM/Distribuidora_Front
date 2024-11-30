@@ -1,0 +1,142 @@
+<p-toast></p-toast>
+<div class="row">
+    <div class="col-md-12 ml-auto mr-auto">
+        <div class="card" style="background-color: #d3f4ea;">
+            <div class="card-header card-header-info text-center">
+                <h4 class="card-title">
+                    Notas de la Póliza
+                    <strong>{{ cobranza.numPoliza }}</strong> <br>
+                    Asegurado: <p-badge value="{{cobranza.asegurado}}" severity="azure"></p-badge> <br>
+                    Próximo pago: <p-badge value="{{cobranza.fechaProxPago | date: 'fullDate'}}"
+                        severity="primary"></p-badge>
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <button pButton type="button" label="Regresar" pTooltip="al listado de Pólizas"
+                                (click)="toBack()" icon="pi pi-angle-double-left" class="p-button-sm"></button>
+                        </div>
+                        <!-- <div class="col-md-6 d-flex justify-content-end"></div> -->
+                        <div class="col-md-6 col-sm-6 d-flex justify-content-end ">
+                            <button pButton pRipple (click)="addNota()" icon="pi pi-plus" pTooltip="Agregar nota"
+                                tooltipPosition="left" class="p-button-sm p-button-success m-1"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="row justify-content-center">
+                        <div class="col-md-12 ml-auto mr-auto" style="background-color: white;">
+                            <h4>Hasta el momento, hay registrados <span class="badge badge-primary"
+                                    style="font-size: larger;"> {{totalMsjs
+                                    }}</span> notas y mensajes</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 ml-auto mr-auto" style="background-color: white;">
+                            <ul class="timeline timeline-simple">
+
+                                <li class="timeline-inverted" *ngFor="let item of mensajes">
+                                    <!-- <pre>{{item.fechaCalendario | json}}</pre> -->
+                                    <div class="timeline-badge"
+                                        [ngClass]="getSeverityTipoNota(item.tipoMensaje.idTipoMensaje)">
+
+                                        <div
+                                            *ngIf="item.tipoMensaje.idTipoMensaje == 0 && item.fechaCalendario !== null">
+                                            <i class="material-icons">event</i>
+                                        </div>
+
+                                        <div
+                                            *ngIf="item.tipoMensaje.idTipoMensaje == 0 && item.fechaCalendario === null">
+                                            <i class="material-icons">sticky_note_2</i>
+                                        </div>
+
+                                        <!-- <div *ngIf="item.tipoMensaje.idTipoMensaje == 0">
+                                             <i class="material-icons">sticky_note_2</i>
+                                        </div> -->
+                                        <div *ngIf="item.tipoMensaje.idTipoMensaje == 1"> <i
+                                                class="material-icons">mail</i></div>
+                                    </div>
+                                    <div class="timeline-panel">
+                                        <div class="timeline-heading">
+                                            <div class="col-lg-12">
+                                                <div class="row">
+                                                    <div class="col-lg-4">
+                                                        <span class="badge"
+                                                            [ngClass]="getSeverityTipoNotaBadgeClass(item.tipoMensaje.idTipoMensaje)">
+                                                            {{ item.tipoMensaje.tipoMensaje }}
+                                                        </span>
+                                                        <span class="badge badge-primary"
+                                                            *ngIf="item.tipoMensaje.idTipoMensaje == 0">
+                                                            {{ item.usuario }}
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div *ngIf="item.fechaCalendario !== null">
+                                                            <div class="tim-typo">
+                                                                <h6>
+                                                                    FECHA CALENDARIZADA:
+                                                                    <small><span style="font-size: x-large; background-color: aqua;">
+                                                                        {{ item.fechaCalendario  | date: 'dd/MM/yy' }}
+                                                                    </span>
+                                                                </small>
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-body">
+                                            <div class="tim-typo">
+                                                <h3>
+                                                    <!-- <span class="tim-note">Small Tag</span>
+                                                    Header with small subtitle -->
+                                                    <br>
+                                                    <small>{{ item.descripcion }}</small>
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <i class="material-icons text-warning">history</i>
+                                        <span style="font-weight: bold; color: gray; font-style: italic;">{{
+                                            item.fechaEnvio | date:
+                                            'dd/MMM/yy HH:mm' }} hrs </span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end">
+                            <p-button (onClick)="showDialog()" icon="pi pi-arrow-up-left" label="Ver Reglas de Negocio"
+                                severity="secondary" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<app-nota-detalle [(idCobranza)]="idCobranza" [esVisible]="notaDialogVisible" (onReturn)="onDialogReturn($event)"
+    (visibleEmit)="notaDialogVisible = $event">
+</app-nota-detalle>
+
+<app-reglas-negocio [esVisible]="reglasNegocioVisible" [(tipoRegla)]="tipoRegla"
+    (visibleEmit)="reglasNegocioVisible = $event">
+    <!-- </app-reglas-negocio> -->

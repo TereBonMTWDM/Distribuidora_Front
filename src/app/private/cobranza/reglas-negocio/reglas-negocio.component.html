@@ -1,0 +1,207 @@
+<!--  -->
+<p-dialog header="Reglas de Negocio" [modal]="true" [(visible)]="esVisible" position="bottom-right"
+    (onHide)="hideDialog()" [style]="{ width: '700px' }">
+
+    <!-- ListaPoliza -->
+    <!-- ListaProgrmacionPagos -->
+    <!-- CalendarioCobranza -->
+    <!-- NotasPoliza -->
+
+    <div class="row" *ngIf="tipoRegla == 'ListaPoliza'">
+        <div class="col-md-12">
+            <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#link1" role="tablist">
+                        Cobranza Activa
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
+                        No Activas
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#link3" role="tablist">
+                        Opciones
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content tab-space">
+                <div class="tab-pane active" id="link1">
+
+                    El listado muestra la Cobranza Activa; es decir, todas las pólizas que:
+                    <ul>
+                        <li>no hayan sido canceladas</li>
+                        <li>son vigentes</li>
+                        <li>el orden por defecto es la <strong>Fecha de Vencimiento</strong> más cercana</li>
+                        <li>se puede ordenar por <strong>Asegurado, Número de Póliza, Fecha del Próximo Pago, tipo de Periodicidad, tipo de Conducto, Estatus y Compañía</strong></li>
+                        <li>categorizadas por Ramo (Vida, Autos, GMM o Daños)</li>
+                        <li>sección info: muestra más información de la Póliza</li>
+                        <li>se puede filtrar por <strong>Nombre del Asegurado</strong> o el <strong>Número de la Póliza</strong></li>
+                        <li>también se puede filtrar directamente en las columnas <strong>"EStatus"</strong> y <strong>"Compañía"</strong></li>
+                    </ul>
+                </div>
+
+                <div class="tab-pane" id="link2">
+                    Se pueden visualizar las Pólizas no Activas mediante el Filtro "???".
+                </div>
+
+                <div class="tab-pane" id="link3">
+                    Entre las opciones disponibles, están:
+                    <ul>
+                        <li>Aplicar el pago a la siguiente Fecha de Vencimiento</li>
+                        <li>Cargary visualizar el archivo PDF de la Póliza</li>
+                        <li>Visualizar la relación de los pagos programados del periodo total de la Póliza</li>
+                        <li>Visualizar los mensajes que se han enviado al Asegurado (correo electrónico y WhatsApp)</li>
+                        <li>Agregar y visualizar notas correspondientes a la cobranza de la Póliza</li>
+                        <li>Cancelar la Póliza</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="tipoRegla == 'ListaProgrmacionPagos'">
+        <div class="col-md-12">
+            <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#link1" role="tablist">
+                        Encabezados
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
+                        Listado
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content tab-space">
+                <div class="tab-pane active" id="link1">
+                    El encabezado de esta pantalla muestra:
+                    <ul>
+                        <li>principalmente el número de la Póliza seleccionada</li>
+                        <li>el nombre del Asegurado</li>
+                        <li>la fecha de vencimiento del próximo pago programado</li>
+                        <li>por último, el botón "Regresar" que permite ir nuevamente al Listado de las Pólizas</li>
+                    </ul>
+                </div>
+
+                <div class="tab-pane" id="link2">
+                    Muestra la relación de la Programación de los Pagos relacionados a la Póliza.
+                    <ul>
+                        <li>Ordenadas por la Fecha Próxima de Vencimiento</li>
+                        <li>
+                            Estatus del Pago:
+                            <ul>
+                                <li>si el Pago está realizado, muestra la leyenda <strong style="color: green;">PAGADO</strong> en color verde, acompañado de la fecha en que se aplicó</li>
+                                <li>muestra la leyenda <strong style="color: orange;">Próximo</strong> en color naranja, indicando el registro del próximo pago</li>
+                                <li>si no, muestra el estatus en <strong>Pendiente</strong></li>
+                            </ul>
+                        </li>
+                        <li>El nombre del usuario que aplicó el pago</li>
+                        <li>muestra totales de los registros</li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="tipoRegla == 'NotasPoliza'">
+        <div class="col-md-12">
+            <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#link1" role="tablist">
+                        Encabezados
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
+                        Notas & Mensajes
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content tab-space">
+                <div class="tab-pane active" id="link1">
+                    El encabezado de esta pantalla muestra:
+                    <ul>
+                        <li>principalmente el número de la Póliza seleccionada</li>
+                        <li>el nombre del Asegurado</li>
+                        <li>la fecha de vencimiento del próximo pago programado</li>
+                        <li>el botón "Regresar" que permite ir nuevamente al Listado de las Pólizas</li>
+                        <li>por último, del lado derecho, el ícono para Agregar una nueva Nota</li>
+                    </ul>
+                </div>
+
+                <div class="tab-pane" id="link2">
+                    Muestra cada uno de las Notas agregadas por un usuario, además de los Mensajes que se han enviado al Asegurado en relación con la cobranza de la Póliza.
+                    <ul>
+                        <li>El total de notas y mensajes que, al momento, se han registrado</li>
+                        <li>Si es Mensaje:
+                            <ul>
+                                <li>muestra en color azul, el tipo de mensaje que corresponde al día, previo o posterior, de vencimiento</li>
+                                <li>el mensaje enviado</li>
+                                <li>por último, la fecha de envío</li>
+                            </ul>
+                        </li>
+                        <li>Si es Nota:
+                            <ul>
+                                <li>muestra en color naranja, la leyenda "NOTA"</li>
+                                <li>enseguida, muestra el nombre del usuario que registró la nota</li>
+                                <li>el texto de la nota agregada</li>
+                                <li>por último, la fecha de registro de la nota</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="tipoRegla == 'CalendarioCobranza'">
+        <div class="col-md-12">
+            <ul class="nav nav-pills nav-pills-warning" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#link1" role="tablist">
+                        Información
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#link2" role="tablist">
+                        Acciones
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content tab-space">
+                <div class="tab-pane active" id="link1">
+                    Este calendario muestra los días destacados en los que los clientes tienen como último día para realizar el pago total o parcial de su póliza.
+                    <ul>
+                        <li>Nombre del Asegurado en la fecha límite de vencimiento</li>
+                    </ul>
+                </div>
+
+                <div class="tab-pane" id="link2">
+                    La información de esta pantalla se muestra en idioma inglés.
+                    <ul>
+                        <li>de forma automática, se posiciona en el mes y año actuales</li>
+                        <li>forma de visualizacón:
+                            <ul>
+                                <li>por mes (month)</li>
+                                <li>por semana (week)</li>
+                                <li>por día (day)</li>
+                            </ul>
+                        </li>
+                        <li>se puede avanzar hacia adelante o atras, dependiendo de la forma de visualización seleccionada</li>
+                        <li>el botón "today", permite volver al calendario con la fecha actual</li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

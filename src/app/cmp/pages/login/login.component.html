@@ -1,0 +1,224 @@
+<p-toast></p-toast>
+
+<div class="wrapper wrapper-full-page">
+  <div class="page-header register-page header-filter" filter-color="black" style="background-image: url('./assets/img/lock.jpg'); background-size: cover; background-position: top center;">
+    <div class="container" style="padding-top: 20px !important;">
+      <div class="row">
+        <div class="col-md-12 ml-auto mr-auto">
+          <div class="card card-signup">
+            <h2 class="card-title text-center">ACCESO</h2>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-8 ml-auto">
+                  <div class="info info-horizontal">
+                    <div class="icon icon-rose">
+                      <i class="material-icons">attach_money</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Cobranza</h4>
+                      <p class="description">
+                        Gestiona eficientemente las cobranzas de las Pólizas de Seguros y manten un historial detallado de cada transacción para una administración precisa y segura.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="info info-horizontal">
+                    <div class="icon icon-primary">
+                      <i class="material-icons">login</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Acceso</h4>
+                      <p class="description">
+                        Ingresa con tu cuenta de Google
+                        <button mat-raised-button class="btn btn-just-icon btn-round btn-danger btn-google">
+                          <i class="fa fa-google-plus"> </i>
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                  <div class="info info-horizontal">
+                    <div class="icon icon-info">
+                      <i class="material-icons">group</i>
+                    </div>
+                    <div class="description">
+                      <h4 class="info-title">Roles</h4>
+                      <p class="description">
+                        Administración General y Cobranza
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4 mr-auto">
+                  <div class="social text-center">
+
+                    <button mat-raised-button class="btn btn-danger btn-google" (click)="AuthLogin()"  [disabled]="authSvc.isAuthenticating">
+                      <i class="fa fa-google-plus"></i> Acceso con Google+
+                    </button>
+                    <!-- <button mat-raised-button class="btn btn-google" (click)="authService.AuthLogin()"  [disabled]="authService.isAuthenticating">
+                      <i class="fa fa-google-plus"></i> Acceso con Google+
+                    </button> -->
+                    
+
+                    <!-- <button mat-raised-button class="btn btn-google" (click)="authService.GoogleAuth()">
+                      <i class="fa fa-google-plus"></i> Acceso con Google+
+                    </button>
+                     -->
+                  </div>
+                  <!-- <form class="form" method="" action="">
+                    <div class="form-group has-default">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">face</i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="First Name...">
+                      </div>
+                    </div>
+                    <div class="form-group has-default">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">mail</i>
+                          </span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Email...">
+                      </div>
+                    </div>
+                    <div class="form-group has-default">
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">
+                            <i class="material-icons">lock_outline</i>
+                          </span>
+                        </div>
+                        <input type="password" placeholder="Password..." class="form-control">
+                      </div>
+                    </div>
+                    <mat-checkbox class="form-check">
+                      I agree to the
+                      <a href="#something">terms and conditions</a>.
+                    </mat-checkbox>
+                    <div class="text-center">
+                      <a href="#pablo" class="btn btn-primary btn-round mt-4">Get Started</a>
+                    </div>
+                  </form> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <footer class="footer ">
+      <div class="container">
+        <div class="copyright pull-right">
+          &copy;
+          {{test | date: 'yyyy'}}, made with <i class="material-icons">favorite</i> by
+          <!-- href="https://www.creative-tim.com"  -->
+          <a target="_blank">Tere Orozco Bon.</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+</div>
+
+
+<!-- 
+<div class="wrapper wrapper-full-page">
+  <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('./assets/img/login.jpg'); background-size: cover; background-position: top center;">
+    !--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " --
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
+          <form class="form" method="" action="">
+            <div class="card card-login card-hidden">
+              <div class="card-header card-header-rose text-center">
+                <h4 class="card-title">Log in</h4>
+                <div class="social-line">
+                  <a href="#pablo" class="btn btn-just-icon btn-link btn-white">
+                    <i class="fa fa-facebook-square"></i>
+                  </a>
+                  <a href="#pablo" class="btn btn-just-icon btn-link btn-white">
+                    <i class="fa fa-twitter"></i>
+                  </a>
+                  <a href="#pablo" class="btn btn-just-icon btn-link btn-white">
+                    <i class="fa fa-google-plus"></i>
+                  </a>
+                </div>
+              </div>
+              <div class="card-body ">
+                <p class="card-description text-center">Or Be Classical</p>
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">face</i>
+                      </span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="First Name...">
+                  </div>
+                </span>
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">email</i>
+                      </span>
+                    </div>
+                    <input type="email" class="form-control" placeholder="Email...">
+                  </div>
+                </span>
+                <span class="bmd-form-group">
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">
+                        <i class="material-icons">lock_outline</i>
+                      </span>
+                    </div>
+                    <input type="password" class="form-control" placeholder="Password...">
+                  </div>
+                </span>
+              </div>
+              <div class="card-footer justify-content-center">
+                <a href="#pablo" class="btn btn-rose btn-link btn-lg">Lets Go</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <footer class="footer ">
+      <div class="container">
+        <nav class="pull-left">
+          <ul>
+            <li>
+              <a href="https://www.creative-tim.com">
+                Creative Tim
+              </a>
+            </li>
+            <li>
+              <a href="https://creative-tim.com/about-us">
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="http://blog.creative-tim.com">
+                Blog
+              </a>
+            </li>
+            <li>
+              <a href="https://www.creative-tim.com/license">
+                Licenses
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="copyright pull-right">
+          &copy;
+            {{test | date: 'yyyy'}}, made with <i class="material-icons">favorite</i> by
+          <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
+        </div>
+      </div>
+    </footer>
+  </div>
+</div> -->

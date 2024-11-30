@@ -1,0 +1,21 @@
+.row {
+    background-color: #F4F1EC;
+}
+
+.custom-table tbody tr {
+    min-width: 50rem;
+    background-color: #e00c0c; /* Cambiar el color de fondo de las filas */
+  }
+
+  .custom-table tbody tr:hover {
+    background-color: #0ecce5; /* Cambiar el color de fondo al pasar el ratón por encima */
+  }
+
+  .custom-table tbody td {
+    padding: 10px; /* Cambiar el padding de las celdas */
+    border-bottom: 1px solid #6c1414; /* Añadir borde inferior a las celdas */
+  }
+  
+  .custom-table tbody td:first-child {
+    font-weight: bold; /* Hacer el texto de la primera columna en negrita */
+  }

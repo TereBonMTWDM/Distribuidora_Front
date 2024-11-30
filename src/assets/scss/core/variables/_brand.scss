@@ -1,0 +1,29 @@
+// Bootstrap brand color customization
+
+
+/*     brand Colors              */
+
+$brand-primary:              $inverser-primary !default; // $purple-500 !default;
+$brand-info:                 $inverser-secondary !default; //$cyan-500 !default;
+$brand-success:              $green-500 !default;
+$brand-warning:              $orange-500 !default;
+$brand-danger:               $red-500 !default;
+$brand-rose:                 $inverser-tertiary !default; //$pink-500 !default;
+$brand-inverse:              $black-color !default;
+
+$brand-fondo:              #fafdfc !default;
+
+
+
+
+// $brand-primary:              $hdi-primary !default; // $purple-500 !default;
+// $brand-info:                 $cyan-500 !default;
+// $brand-success:              $green-500 !default;
+// $brand-warning:              $hdi-azul !default; //$orange-500 !default;
+// $brand-danger:               $red-500 !default;
+// $brand-rose:                 $pink-500 !default;
+// $brand-inverse:              $black-color !default;
+
+// $brand-fondo:              #dce3d4 !default;
+
+//fondo verde aqua  #d3f4ea

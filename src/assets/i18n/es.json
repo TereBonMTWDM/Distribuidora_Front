@@ -1,0 +1,36 @@
+{
+  "demo": {
+    "greetings": "Bonjour!",
+    "en": "Anglaise",
+    "fr": "Français",
+    "es": "Español"
+  },
+  "primeng": {
+    "dayNamesMin": [
+      "Do",
+      "Lu",
+      "Ma",
+      "Mi",
+      "Ju",
+      "Vi",
+      "Sa"
+    ],
+    "monthNames": [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayi",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ],
+    "choose": "Selecciona archivo PDF",
+    "upload" : "Carga",
+    "cancel": "Cancela"
+  }
+}

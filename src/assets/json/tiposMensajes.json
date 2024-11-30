@@ -1,0 +1,9 @@
+[
+    { "label": "Día 1 previo a vencimiento", "value": "Día 1 previo a vencimiento" },
+    { "label": "Día 15 previo a vencimiento", "value": "Día 15 previo a vencimiento" },
+    { "label": "Día 25 previo a vencimiento", "value": "Día 25 previo a vencimiento" },
+    { "label": "Día del pago", "value": "Día del pago" },
+    { "label": "Día 33 en prórroga", "value": "Día 33 en prórroga" },
+    { "label": "Día 43 en prórroga", "value": "Día 43 en prórroga" },
+    { "label": "Día 60 en prórroga", "value": "Día 60 en prórroga" }
+]

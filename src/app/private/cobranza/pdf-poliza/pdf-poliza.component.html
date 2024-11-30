@@ -1,0 +1,59 @@
+<ng-container *ngIf="loadingService.isLoading$ | async">
+    <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+</ng-container>
+
+<!-- Carga de documento -->
+<div *ngIf="isCargaPDF" class="card flex justify-content-center">
+    <p-toast />
+    <!-- !-- "image/*"  -- -->
+    <!-- maxFileSize="1000000" -->
+
+    <p-fileUpload name="demo[]" [multiple]="false" accept="application/pdf" customUpload="true"
+        (onSelect)="onSelect($event)">
+        <ng-template pTemplate="content">
+            <ul *ngIf="uploadedFiles.length">
+                <li *ngFor="let file of uploadedFiles">
+                    {{ file.name }} - {{ file.size }} bytes
+                </li>
+            </ul>
+        </ng-template>
+    </p-fileUpload>
+</div>
+
+<!-- Visualización de información y documento -->
+<div *ngIf="!isCargaPDF && imagen != undefined" class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header card-header-success card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">event</i>
+                </div>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Fecha de Carga</h4>
+                <p class="card-category">{{ imagen.fechaAlta | date: 'dd/MMM/yy HH:mm'}} hrs </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header card-header-info card-header-icon">
+                <div class="card-icon">
+                    <i class="material-icons">face</i>
+                </div>
+            </div>
+            <div class="card-body">
+                <h4 class="card-title">Usuario</h4>
+                <p class="card-category">{{ imagen.usuario }} </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<pdf-viewer *ngIf="!isCargaPDF" [src]="url" [render-text]="true" [original-size]="true"
+    style="width: auto; height: 500px"></pdf-viewer>

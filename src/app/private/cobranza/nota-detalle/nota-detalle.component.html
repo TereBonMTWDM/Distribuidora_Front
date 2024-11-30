@@ -1,0 +1,39 @@
+<p-toast></p-toast>
+<p-dialog header="Nueva nota" [modal]="true" [(visible)]="esVisible" (onHide)="hideDialog()"
+    [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true">
+
+
+    <form #form="ngForm" (ngSubmit)="SaveNota(form)" method="get" action="/" class="form-horizontal">
+        <div class="row">
+            <label class="col-sm-6 col-form-label">¿Es una nota calendarizada?</label>
+            <p-inputSwitch [(ngModel)]="esCalendarizada" />
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6 col-form-label" *ngIf="esCalendarizada">
+                <p-calendar [(ngModel)]="fechaCalendario" [minDate]="today"
+                [showIcon]="true" [showOnFocus]="false" inputId="buttondisplay" appendTo="body" />
+                <!-- <p-calendar [(ngModel)]="fechaCalendario" [showIcon]="true" [showOnFocus]="false" inputId="buttondisplay" appendTo="body" /> -->
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- <label class="col-sm-4 col-form-label">Nota</label> -->
+            <div class="col-sm-8">
+                <mat-form-field>
+                    <mat-label>Ingresa el texto de la nota que deseas guardar...</mat-label>
+                    <textarea matInput name="descripcion" [(ngModel)]="descripcion"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left"></ng-template>
+            <ng-template pTemplate="right">
+                <button pButton type="submit" label="Guardar" icon="pi pi-save"
+                    class="p-button-sm p-button-info m-1"></button>
+            </ng-template>
+        </p-toolbar>
+    </form>
+
+</p-dialog>

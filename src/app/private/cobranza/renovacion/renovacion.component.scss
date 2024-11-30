@@ -1,0 +1,7 @@
+$background-color_1: #f5f5f5;
+
+.disabled-row {
+	pointer-events: none;
+	opacity: 0.6;
+	background-color: $background-color_1;
+}

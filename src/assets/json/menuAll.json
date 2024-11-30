@@ -1,0 +1,53 @@
+[
+    {
+        "path": "/inventario",
+        "title": "Productos",
+        "type": "sub",
+        "icontype": "category",
+        "collapse": "productos",
+        "children": [
+            {"path": "lista-productos", "title": "Lista de Productos", "ab":"L"}
+        ]
+    },
+
+
+
+    {
+        "path": "/cobranza",
+        "title": "Cobranza Vida",
+        "type": "sub",
+        "icontype": "settings_accessibility",
+        "collapse": "cobranza",
+        "children": [
+            {"path": "lista-polizas-vida", "title": "Lista de Pólizas", "ab":"L"},
+            {"path": "agentes", "title": "Agentes", "ab":"A"},
+            {"path": "renovacion", "title": "Renovación", "ab":"R"}
+        ]
+    },
+    {
+        "path": "/cobranza",
+        "title": "Cobranza Autos",
+        "type": "sub",
+        "icontype": "directions_car",
+        "collapse": "cobranza-autos",
+        "children": [
+            {"path": "lista-polizas", "title": "Lista de Pólizas", "ab":"L"}
+        ]
+    },
+    {
+        "path": "/cobranza/calendario",
+        "title": "Calendario",
+        "type": "link",
+        "icontype": "calendar_month"
+       
+    },
+    {
+        "path": "/cobranza/grafico",
+        "title": "Gráficos",
+        "type": "link",
+        "icontype": "bar_chart_4_bars"
+       
+    },
+    {"path": "calendario", "title": "Calendario", "ab":"C"},
+    {"path": "calendario", "title": "Gráficos", "ab":"G"}
+]

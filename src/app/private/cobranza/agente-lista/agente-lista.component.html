@@ -1,0 +1,118 @@
+<p-toast></p-toast>
+<div class="row">
+    <div class="col-md-12 ml-auto mr-auto">
+        <div class="card" style="background-color: #d3f4ea;">
+            <div class="card-header card-header-info text-center">
+                <h2 class="card-title">Agentes</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 d-flex justify-content-end ">
+                            <button pButton pRipple (click)="AddAgente()" icon="pi pi-plus" pTooltip="Agregar agente"
+                                tooltipPosition="left" class="p-button-sm p-button-success m-1"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p-table #dt [value]="agentes" editMode="row"
+                            [rows]="10" [paginator]="true" [globalFilterFields]="['nombre']"
+                            [rowHover]="true" dataKey="id"
+                            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+                            [showCurrentPageReport]="true" styleClass="p-datatable-sm" responsiveLayout="stack"
+                            [rowsPerPageOptions]="[5, 10, 20]">
+                            <ng-template pTemplate="caption">
+                                <div class="grid">
+                                    <div class="col-6 lg:col-4 md:col-4 sm:flex-nowrap align-items-rigth">
+                                        <span class="p-input-icon-left w-full">
+                                            <i class="pi pi-search"></i>
+                                            <input pInputText type="text" [(ngModel)]="searchValue"
+                                                (input)="dt.filterGlobal($any($event.target).value, 'contains')"
+                                                placeholder="Buscar por Nombre de Asegurado o Número de Póliza..."
+                                                class="w-full" />
+                                        </span>
+                                    </div>
+                                    <div
+                                        class="col-2 lg:col-4 md:col-4 sm:flex-nowrap align-items-rigth justify-content-end">
+                                        <p-button label="" [outlined]="true" icon="pi pi-filter-slash"
+                                            (onClick)="clear(dt)" pTooltip="Limpiar filtro" />
+                                    </div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <!-- ***Encabezados -->
+                                <tr>
+                                    <th pSortableColumn="nombre">Nombre <p-sortIcon field="nombre" style="width:550px"></p-sortIcon>
+                                    </th>
+                                    <th ></th>
+                                    <th style="width:250px">Opciones</th>
+                                </tr>
+
+                            </ng-template>
+                            <ng-template pTemplate="body" let-item let-editing="editing" let-ri="rowIndex">
+                                <tr [pEditableRow]="item" #itemAgente>
+                                    <td  style="width:550px">
+                                        <p-cellEditor>
+                                            <ng-template pTemplate="input">
+                                                <input pInputText type="text" [(ngModel)]="item.nombre">
+                                            </ng-template>
+                                            <ng-template pTemplate="output">
+                                                {{item.nombre}}
+                                            </ng-template>
+                                        </p-cellEditor>
+                                    </td>
+                                    <td>
+                                        <div *ngIf="item.esInverser">
+                                            <i class="pi pi-spin pi-star-fill" style="font-size: 1rem; color: blueviolet;" pTooltip="Agente INVERSER"></i>
+                                        </div>
+                                    </td>
+
+                                    <td style="width:250px">
+                                        <!-- <div class="flex align-items-center justify-content-center gap-2"> -->
+                                            <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow icon="pi pi-pencil" (click)="onRowEditInit(item)" class="p-button-rounded p-button-text"></button>
+                                            <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check" (click)="onRowEditSave(item)" class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                                            <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times" (click)="onRowEditCancel(item, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                            <button pButton pRipple type="button" pCancelEditableRow icon="pi pi-trash" (click)="DeleteAgente(item, ri)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                        <!-- </div> -->
+                                    </td>
+
+                                
+
+                                </tr>
+
+                                <!-- <tr>
+                                    <td> {{ item.nombre }} 
+                                        <p-tag *ngIf="item.esInverser" [severity]="info" />
+                                    </td>
+                                    <td>
+                                        opciones...
+                                    </td>
+                                </tr> -->
+                            </ng-template>
+
+                            <ng-template pTemplate="summary">
+                                <div class="p-d-flex p-ai-center p-jc-between">
+                                    En total hay {{agentes ? agentes.length : 0 }} registros.
+                                </div>
+                            </ng-template>
+                        </p-table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-confirmDialog #cd [style]="{width: '50vw'}">
+    <ng-template pTemplate="footer">
+        <button type="button" pButton icon="pi pi-times" label="No" style="margin: 10px;" (click)="cd.reject()" class="p-button-sm p-button-secondary m-1"></button>
+        <button type="button" pButton icon="pi pi-check" label="Sí" style="margin: 10px;" (click)="cd.accept()" class="p-button-sm p-button-info m-1"></button>
+    </ng-template>
+</p-confirmDialog>
+<!-- <p-confirmDialog [style]="{ width: '450px' }" acceptLabel="Sí" rejectLabel="No" /> -->
