@@ -8,6 +8,6 @@ export interface ProdProveedor
     precioProducto?: number;
 
     nombreProveedor?: string;
-    claveProveeor?: string;
+    claveProveedor?: string;
     costo?: number;
 }

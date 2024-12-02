@@ -1,11 +1,13 @@
-import { Component, Input, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { firstValueFrom } from 'rxjs';
 import { ProdProveedor } from 'src/app/models/prod-proveedor';
 import { Producto } from 'src/app/models/producto';
 import { Proveedor } from 'src/app/models/proveedor';
 import { AppPrimeModule } from 'src/app/modules/prime-ng/prime-ng.module';
 import { ProdProveedorService } from 'src/app/services/prod-proveedor.service';
+import { ProveedoresService } from 'src/app/services/proveedores.service';
 
 @Component({
   selector: 'app-prod-proveedor-form',
@@ -16,37 +18,40 @@ import { ProdProveedorService } from 'src/app/services/prod-proveedor.service';
   providers: [MessageService, ConfirmationService]
 })
 export class ProdProveedorFormComponent {
-  @Input() producto: Producto;
-  @Input() proveedor: ProdProveedor;
+  // @Input() producto: Producto;
+  @Input('proveedor') prodProveedor: ProdProveedor;
+  @Output() onReturn = new EventEmitter<{}>();
+  proveedor: Proveedor;
+  proveedores: Proveedor[] = [];
 
   formulario: FormGroup = new FormGroup({
     id: new FormControl(''),
-    nombre: new FormControl(''),
-    clave: new FormControl(''),
+    nombreProveedor: new FormControl(''),
+    claveProveedor: new FormControl(''),
     costo: new FormControl('')
 
   });
 
   constructor(
-    private ProdProveedorSvc: ProdProveedorService
+    private prodProveedorSvc: ProdProveedorService, private proveedorSvc: ProveedoresService
     , private messageService: MessageService, private confirmationService: ConfirmationService
   ) { }
 
 
   ngOnChanges(changes: SimpleChanges) {
-    if (!!changes.proveedor && !!changes.proveedor.currentValue) {
-      this.proveedor = changes.producto.currentValue;
-      console.log('proveedor detail: ', this.proveedor);
+    if (!!changes.prodProveedor && !!changes.prodProveedor.currentValue) {
+      this.prodProveedor = changes.prodProveedor.currentValue;
+      console.log('proveedor detail: ', this.prodProveedor);
 
-      if (this.proveedor.id) {
+      if (this.prodProveedor.id) {
         this.getProveedor();
 
       }
       else {
         this.formulario = new FormGroup({
           id: new FormControl(''),
-          nombre: new FormControl(''),
-          clave: new FormControl(''),
+          nombreProveedor: new FormControl(''),
+          claveProveedor: new FormControl(''),
           costo: new FormControl('')
         });
       }
@@ -57,23 +62,29 @@ export class ProdProveedorFormComponent {
     this.LoadProveedores();
   }
 
-  async onSave(form: NgForm){
-    if(this.formulario.valid){
+  async onSave(form: NgForm) {
+    let result: any;
+
+    if (this.formulario.valid) {
       const obj = this.formulario.value;
       console.log('>>>obj: ', obj);
 
-      this.proveedor = {
-        id: obj.id,
-        claveProducto: this.producto.clave,
+      // this.proveedor = {
+      //   id: obj.id,
+      //   claveProducto: this.proveedor.claveProveeor,
+      //   nombreProveedor: this.proveedor.nombreProveedor
 
-
-        nombreProveedor: this.proveedor.claveProducto;
-
-        
-
-
-      }
+      // }
+      result = await firstValueFrom(this.prodProveedorSvc.Save(obj));
+      console.log('>>>result', result);
       
+
+      if (result.complete) {
+        this.prodProveedor = result.data;
+
+        this.onReturn.emit(result);
+      }
+
     }
 
   }
@@ -81,16 +92,48 @@ export class ProdProveedorFormComponent {
 
   getProveedor() {
     this.formulario = new FormGroup({
-      id: new FormControl(this.proveedor.id),
-      nombre: new FormControl(this.proveedor.nombreProveedor),
-      clave: new FormControl(this.proveedor.claveProveeor),
-      costo: new FormControl(this.proveedor.costo)
+      id: new FormControl(this.prodProveedor.id),
+      nombreProveedor: new FormControl(this.prodProveedor.nombreProveedor),
+      claveProveedor: new FormControl(this.prodProveedor.claveProveedor),
+      costo: new FormControl(this.prodProveedor.costo)
     });
   }
 
-  LoadProveedores(){
+  LoadProveedores() {
+    this.proveedorSvc.GetProveedores().subscribe((result: any) => {
+      if (result.complete) {
+          this.proveedores = result.data.map((item: any) => ({
+              id: item.id,
+              nombre: item.nombre,
+              descripcion: item.descripcion,
+              notas: item.notas,
+              totalCompras: item.totalCompras
+          }));
 
+          if (this.prodProveedor?.nombreProveedor) {
+            this.proveedor = this.proveedores.find(p => p.nombre === this.prodProveedor.nombreProveedor) || null;
+        }
+      } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar obtener los registros. Error:' + result.errors, life: 7000 });
+      }
+  });
   }
 
-  
+
+
+  selectProveedor(event: any) {
+    // console.log(event);
+    if (event.value) {
+      this.proveedor = this.proveedores.find(p => p.id === event.value.id) || null;
+    } else {
+      this.proveedor = null;
+    }
+    console.log('Proveedor seleccionado:', this.proveedor);
+
+
+    // if (event.value != null) {
+    //   this.proveedor = event.value;
+    // }
+  }
+
 }

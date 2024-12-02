@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ProdProveedor } from 'src/app/models/prod-proveedor';
 import { Producto } from 'src/app/models/producto';
-import { Proveedor } from 'src/app/models/proveedor';
 import { AppPrimeModule } from 'src/app/modules/prime-ng/prime-ng.module';
 import { ProdProveedorService } from 'src/app/services/prod-proveedor.service';
 import { ProdProveedorFormComponent } from '../prod-proveedor-form/prod-proveedor-form.component';
@@ -33,11 +32,8 @@ export class ProvByProductoComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      console.log('>>> params:', params);
       this.clave = params['clave'];
       this.tipo = params['tipo'];
-
-      
     });
 
     this.LoadProdProv(this.clave, this.tipo)
@@ -54,7 +50,7 @@ export class ProvByProductoComponent implements OnInit {
     });
   }
 
-  OpenDialog(item: ProdProveedor){
+  OpenDialog(item?: ProdProveedor){
     this.proveedor = item;
 
     this.detalleShow = true;
@@ -62,8 +58,6 @@ export class ProvByProductoComponent implements OnInit {
 
 
   Delete(item: ProdProveedor){
-    console.log('item a eliminar: ', item);
-
     this.confirmationService.confirm({
       message: '¿Estás seguro de eliminar el proveedor para este producto <strong>' + item.nombreProveedor +
         '</strong>?',
@@ -95,6 +89,20 @@ export class ProvByProductoComponent implements OnInit {
 
   toBack() {
     this.router.navigate(['/inventario/lista-productos']);
+  }
+
+  onDialog(event: any) {
+    console.log('>>>on dialog', event);
+    
+    this.detalleShow = false;
+    if (event.complete) {
+      this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: event.message, life: 3000 });
+    }
+    else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar guardar el proveedor. Error:' + event.errors, life: 7000 });
+    }
+
+    this.LoadProdProv(this.clave, this.tipo)
   }
 
 }

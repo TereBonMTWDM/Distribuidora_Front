@@ -15,7 +15,6 @@ import { FooterModule } from './cmp/shared/footer/footer.module';
 import { FixedpluginModule } from './cmp/shared/fixedplugin/fixedplugin.module';
 import { AdminLayoutComponent } from './cmp/layouts/admin/admin-layout.component';
 import { AuthLayoutComponent } from './cmp/layouts/auth/auth-layout.component';
-import { HdiModule } from './hdi/hdi.module';
 import { BrowserModule } from '@angular/platform-browser';
 
 //Traslate of PrimeNg

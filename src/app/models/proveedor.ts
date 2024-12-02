@@ -2,6 +2,7 @@ export interface Proveedor
 {
     id?: number;
     nombre?: string;
-    clave?: string;
-    costo?: string;
+    descripcion?: string;
+    notas?: string;
+    totalCompras?: number;
 }

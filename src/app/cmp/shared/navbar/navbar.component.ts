@@ -4,7 +4,6 @@ import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { MensajesService } from 'src/app/services/mensajes.service';
 const misc: any = {
     navbar_menu_visible: 0,
     active_collapse: true,
@@ -31,7 +30,7 @@ export class NavbarComponent implements OnInit {
 
     constructor(
         location: Location, private renderer: Renderer2, private element: ElementRef, private router: Router,
-        private msjSvc: MensajesService
+        
     ) {
         // this.LoadNotificaciones();
         
@@ -40,13 +39,6 @@ export class NavbarComponent implements OnInit {
         this.sidebarVisible = false;
     }
 
-    async LoadNotificaciones() {
-        this.msjSvc.GetNotificacionesSinEnviar().subscribe((result: any) => {
-          if(result.complete){
-            this.totalNotificaciones = result.total;
-          } 
-        });
-      }
 
     minimizeSidebar(){
       const body = document.getElementsByTagName('body')[0];

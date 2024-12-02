@@ -3,7 +3,7 @@
     <div class="col-md-12 ml-auto mr-auto">
         <div class="card" style="background-color: #d3f4ea;">
             <div class="card-header card-header-info text-center">
-                <h2 class="card-title">Proveedores por Producto</h2>
+                <h2 class="card-title">Proveedores del Producto</h2>
             </div>
 
             <div class="card-body">
@@ -85,8 +85,7 @@
 <p-dialog header="Detalle del Proveedor y Producto" [modal]="true" [(visible)]="detalleShow" [style]="{ width: '90rem' }"
     [styleClass]="'dialog-container'" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true"
     appendTo="body">
-     <!-- !-- (onReturn)="onDialog($event)" -- -->
-     <app-prod-proveedor-form [proveedor]="proveedor"></app-prod-proveedor-form>
+     <app-prod-proveedor-form [proveedor]="proveedor" (onReturn)="onDialog($event)"></app-prod-proveedor-form>
 
 </p-dialog>
 

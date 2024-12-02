@@ -14,6 +14,28 @@
                                 <div class="card-body ">
                                     <div class="row">
                                         <div class="col-4">
+                                            <label>Proveedor</label> <br>
+                                            <p-dropdown id="proveedor" name="proveedor" optionLabel="nombre"
+                                                [options]="proveedores" dataKey="id" appendTo="body"
+                                                [(ngModel)]="proveedor" (onChange)="selectProveedor($event)"
+                                                [showClear]="true" placeholder="-Selecciona el Proveedor-"
+                                                emptyFilterMessage="Sin resultados">
+
+                                                <ng-template pTemplate="selectedItem">
+                                                    <div *ngIf="proveedor">
+                                                        <div style="font-weight: bolder;">{{ proveedor.nombre }}</div>
+                                                    </div>
+                                                </ng-template>
+
+                                                <ng-template let-item pTemplate="item">
+                                                    <div>{{ item.nombre }}</div>
+                                                </ng-template>
+                                            </p-dropdown>
+
+                                        </div>
+
+
+                                        <div class="col-4">
                                             <label for="claveProveedor">Clave del Producto del Proveedor</label>
                                             <input id="claveProveedor" name="claveProveedor" type="text"
                                                 class="form-control" formControlName="claveProveedor"
@@ -25,35 +47,15 @@
                                             </small>
                                         </div>
 
-                                       
 
-                                        <!-- <div class="col-4">
-                                            <label>Costo del Producto</label> <br>
-                                            <p-dropdown id="costo" name="costo" optionLabel="nombre"
-                                                [options]="tiposProductos" dataKey="id" appendTo="body"
-                                                [(ngModel)]="tipoProducto" (onChange)="selectTipo($event)"
-                                                [showClear]="true" placeholder="-Selecciona el tipo de producto-"
-                                                emptyFilterMessage="Sin resultados">
 
-                                                <ng-template pTemplate="selectedItem">
-                                                    <div *ngIf="tipoProducto">
-                                                        <div style="font-weight: bolder;">{{ tipoProducto.nombre }}
-                                                        </div>
-                                                    </div>
-                                                </ng-template>
 
-                                                <ng-template let-item pTemplate="item">
-                                                    <div>{{ item.nombre }}</div>
-                                                </ng-template>
-                                            </p-dropdown>
-                                        </div> -->
 
 
                                         <div class="col-4">
                                             <label for="costo">Costo del Producto</label>
-                                            <input id="costo" name="costo" type="text"
-                                                class="form-control" formControlName="costo"
-                                                style="font-weight: bold;">
+                                            <input id="costo" name="costo" type="text" class="form-control"
+                                                formControlName="costo" style="font-weight: bold;">
                                             <small
                                                 *ngIf="formulario.get('costo')?.invalid && formulario.get('costo')?.touched"
                                                 class="text-danger">
