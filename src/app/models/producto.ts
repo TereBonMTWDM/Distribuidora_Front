@@ -1,12 +1,20 @@
 export interface Producto
 {
     id?: number;
-    claveProducto?: string;
-    nombreProducto?: string;
+    clave?: string;
+    nombre?: string;
+    idTipoProducto?: number;
     tipoProducto?: string;
-    precioProducto?: number;
+    precio?: number;
 
-    nombreProveedor?: string;
-    claveProveeor?: string;
-    costoProveedor?: number;
+    // id?: number;
+    // claveProducto?: string;
+    // nombreProducto?: string;
+    // idTipoProducto?: number;
+    // tipoProducto?: string;
+    // precioProducto?: number;
+
+    // nombreProveedor?: string;
+    // claveProveeor?: string;
+    // costoProveedor?: number;
 }

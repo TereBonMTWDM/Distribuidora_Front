@@ -6,11 +6,12 @@ import { AppPrimeModule } from 'src/app/modules/prime-ng/prime-ng.module';
 import { ProductosService } from 'src/app/services/productos.service';
 import { TipoProductoService } from 'src/app/services/tipo-producto.service';
 import { ProductoDetailComponent } from '../producto-detail/producto-detail.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-productos-list',
   standalone: true,
-  imports: [AppPrimeModule, ProductoDetailComponent],
+  imports: [AppPrimeModule, ProductoDetailComponent], 
   templateUrl: './productos-list.component.html',
   styleUrl: './productos-list.component.scss',
   providers: [MessageService, ConfirmationService]
@@ -27,16 +28,17 @@ export class ProductosListComponent implements OnInit {
   constructor(
     private productoSvc: ProductosService, private tiposProductosSvc: TipoProductoService
     , private messageService: MessageService, private confirmationService: ConfirmationService
+    , private router: Router
   ) { }
 
   ngOnInit(): void {
-    // this.LoadProductos();
+    this.LoadProductos('elec001', 1); // ejemplo para inicilizar
     this.LoadTiposProductos();
   }
 
   async LoadProductos(claveProducto?: string, tipo?: number ) {
     this.productoSvc.GetProductos(claveProducto, tipo).subscribe((result: any) => {
-      console.log('prods: ', result);
+      // console.log('prods: ', result);
 
       if (result.complete) {
         this.productos = result.data;
@@ -54,7 +56,7 @@ export class ProductosListComponent implements OnInit {
 
   async LoadTiposProductos() {
     this.tiposProductosSvc.GetProductos().subscribe((result: any) => {
-      console.log('tipos: ', result);
+      // console.log('tipos: ', result);
 
       if (result.complete) {
         this.tiposProductos = result.data;
@@ -64,6 +66,15 @@ export class ProductosListComponent implements OnInit {
     });
   }
 
+  goProveedores(item: Producto){
+    console.log('>>> prod: ', item);
+
+    this.router.navigate(['/inventario/proveedor-producto'], {
+      queryParams: { clave: item.clave, tipo: item.idTipoProducto }
+    });
+    
+    // this.router.navigate(['/inventario/proveedor-producto/', item.id])
+  }
 
   selectTipo(event: any) {
     console.log(event);
@@ -100,7 +111,7 @@ export class ProductosListComponent implements OnInit {
     console.log('item a eliminar: ', item);
 
     this.confirmationService.confirm({
-      message: '¿Estás seguro de eliminar el producto <strong>' + item.nombreProducto +
+      message: '¿Estás seguro de eliminar el producto <strong>' + item.nombre +
         '</strong>?',
       header: 'Eliminar producto',
       icon: 'pi pi-exclamation-triangle',

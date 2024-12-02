@@ -13,6 +13,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     RouterModule.forChild(InventarioRoutingModule),
     MaterialModule,
     ReactiveFormsModule
-  ]
+    
+  ],
+  // exports: [RouterModule]
 })
 export class InventarioModule { }

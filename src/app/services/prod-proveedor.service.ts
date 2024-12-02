@@ -4,18 +4,19 @@ import { AuthService } from './auth.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 import { Result } from '../models/result';
-import { Producto } from '../models/producto';
+import { ProdProveedor } from '../models/prod-proveedor';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductosService {
+export class ProdProveedorService {
 
-  api: string = environment.api.Inventario + 'Producto/';
+  
+  api: string = environment.api.Inventario + 'ProductoProveedor/';
 
   constructor(private http: HttpClient , private authSvc: AuthService) { }
 
-  GetProductos(claveProducto?: string, tipo?: number) : Observable<any>{
+  GetProveedorByProducto(claveProducto?: string, tipo?: number) : Observable<any>{
     let params = new HttpParams();
     
     if (claveProducto) {
@@ -25,13 +26,13 @@ export class ProductosService {
         params = params.set('tipo', tipo.toString());
     }
 
-    return this.http.get<Result>(`${this.api}GetProductos`, {params}).pipe(
+    return this.http.get<Result>(`${this.api}Get`, {params}).pipe(
       map(res => res as Result)
     );
   }
 
-  Save(item: Producto) : Observable<Result>{
-    if(item.clave?.trim()){
+  Save(item: ProdProveedor) : Observable<Result>{
+    if(item.nombreProveedor){
       if(item.id === undefined){ 
         // Save:
         return this.http.post<Result>(`${this.api}Save`, item).pipe(

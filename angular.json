@@ -136,6 +136,7 @@
               "buildOptimizer": true
             },
             "development": {
+              "sourceMap": true,
               "buildOptimizer": false,
               "optimization": {
                 "scripts": true,
@@ -155,6 +156,9 @@
             "buildTarget": "inverser-admin:build"
           },
           "configurations": {
+            "hmr": {
+              "hmr": true
+            },
             "production": {
               "buildTarget": "inverser-admin:build:production"
             },
@@ -162,7 +166,8 @@
               "buildTarget": "inverser-admin:build:qa"
             },
             "development": {
-              "buildTarget": "inverser-admin:build:development"
+              "buildTarget": "inverser-admin:build:development",
+              "hmr": true
             }
           },
           "defaultConfiguration": "production"

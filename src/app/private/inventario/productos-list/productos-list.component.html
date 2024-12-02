@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="col-md-12">
                     <div class="row">
-                        <div class="col-md-12 col-sm-12 d-flex justify-content-end ">
+                        <div class="col-md-12 col-sm-12 d-flex justify-content-end">
                             <button pButton pRipple (click)="OpenDialog()" icon="pi pi-plus" pTooltip="Agregar producto"
                                 tooltipPosition="left" class="p-button-sm p-button-success m-1"></button>
                         </div>
@@ -17,9 +17,10 @@
                 </div>
             </div>
 
+
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-12">
+                <div class="col-md-12">
                         <p-table #dt [value]="productos" editMode="row" [rows]="10" [paginator]="true"
                             [globalFilterFields]="['claveProducto']" [rowHover]="true" dataKey="id"
                             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
@@ -27,7 +28,7 @@
                             [rowsPerPageOptions]="[5, 10, 20]">
                             <ng-template pTemplate="caption">
                                 <div class="grid">
-                                    <div class="col-2 sm:flex-nowrap align-items-rigth">
+                                    <div class="col-4 sm:flex-nowrap align-items-rigth">
                                         <span class="p-input-icon-left w-full">
                                             <i class="pi pi-search"></i>
                                             <input pInputText type="text" [(ngModel)]="searchValue"
@@ -59,51 +60,40 @@
                                             </ng-template>
                                         </p-dropdown>
                                     </div>
-                                    <div class="col-2">
+                                    <div class="col-3 d-flex justify-content-end">
                                         <button pButton type="button" label="Buscar" icon="pi pi-save"
                                             (click)="Buscar()" class="p-button-sm p-button-default m-1"></button>
                                     </div>
-                                    <div class="col-2 " style="color: blue; font-size: x-large;">
-                                        <div *ngIf="productos.length > 0">
-                                            <h3>
-                                                {{productos[0].nombreProducto}}
-                                            </h3>
-                                        </div>
-                                        <!-- <div *ngIf="isData == false && productos.length == 0" style="color: red;">
-                                            *No hay productos con ese filtro
-                                        </div> -->
-                                    </div>
+                                   
                                 </div>
                             </ng-template>
                             <ng-template pTemplate="header">
-                                <!-- ***Encabezados -->
+                                <!-- !-- ***Encabezados -- -->
                                 <tr>
-                                    <th pSortableColumn="nombreProveedor">Proveedor <p-sortIcon field="nombreProveedor"
-                                            style="width:550px"></p-sortIcon></th>
-                                    <th pSortableColumn="claveProveedor">Clave <p-sortIcon field="claveProveedor"
-                                            style="width:550px"></p-sortIcon></th>
-                                    <th pSortableColumn="costoProveedor">Costo <p-sortIcon field="costoProveedor"
-                                            style="width:550px"></p-sortIcon></th>
-                                    <th>Precio Público</th>
+                                    <th pSortableColumn="nombre">Producto <p-sortIcon field="nombre"></p-sortIcon></th>
+                                    <th pSortableColumn="clave">Clave <p-sortIcon field="clave"></p-sortIcon></th>
+                                    <th pSortableColumn="precio">Precio <p-sortIcon field="precio"></p-sortIcon></th>
                                     <th style="width:250px">Opciones</th>
                                 </tr>
 
                             </ng-template>
                             <ng-template pTemplate="body" let-item>
                                 <tr [pEditableRow]="item" #itemProducto>
-                                    <td>{{ item.nombreProveedor }}</td>
-                                    <td>{{ item.claveProveedor}}</td>
-                                    <td>{{ item.costoProveedor}}</td>
-                                    <td>$ {{ item.precioProducto | currency:'MXN':'symbol':'1.2-2'}}</td>
+                                    <td>{{ item.nombre }}</td>
+                                    <td>{{ item.clave}}</td>
+                                    <td>$ {{ item.precio | currency:'MXN':'symbol':'1.2-2'}}</td>
 
-                                    <td style="width:250px">
-                                        <button pButton pRipple type="button" icon="pi pi-pencil" (click)="OpenDialog(item)"
-                                            class="p-button-rounded p-button-text p-button-default"></button>
-
-                                        <button pButton pRipple type="button" icon="pi pi-trash"
-                                            (click)="Delete(item)"
-                                            class="p-button-rounded p-button-text p-button-danger"></button>
-
+                                    <td style="width:450px">
+                                        
+                                        <button pButton pRipple type="button" icon="pi pi-pencil"
+                                        (click)="OpenDialog(item)"
+                                        class="p-button-rounded p-button-text p-button-default"></button>
+                                        
+                                        <button pButton pRipple type="button" icon="pi pi-trash" (click)="Delete(item)"
+                                        class="p-button-rounded p-button-text p-button-danger"></button>
+                                        
+                                        <button pButton type="button" label="Proveedores" icon="pi pi-angle-double-right"
+                                            (click)="goProveedores(item)" class="p-button-sm p-button-default m-1"></button>
                                     </td>
                                 </tr>
                             </ng-template>
@@ -117,7 +107,7 @@
                     </div>
 
                 </div>
-            </div>
+            </div>            
         </div>
     </div>
 </div>
@@ -125,16 +115,16 @@
 <p-dialog header="Detalle del Producto" [modal]="true" [(visible)]="detalleShow" [style]="{ width: '90rem' }"
     [styleClass]="'dialog-container'" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true"
     appendTo="body">
-    <app-producto-detail [producto]="producto" (onReturn)="onDialog($event)"></app-producto-detail>
-    <!-- <app-poliza-detalle [cobranza]="poliza" (onReturn)="onDialogReturnPolizaDetalle($event)"></app-poliza-detalle> -->
+     <!-- (onReturn)="onDialog($event)" -->
+    <app-producto-detail [producto]="producto"></app-producto-detail>
+
 </p-dialog>
 
-<p-confirmDialog #cd [style]="{width: '50vw'}">
+<!-- <p-confirmDialog #cd [style]="{width: '50vw'}">
     <ng-template pTemplate="footer">
         <button type="button" pButton icon="pi pi-times" label="No" style="margin: 10px;" (click)="cd.reject()"
             class="p-button-sm p-button-secondary m-1"></button>
         <button type="button" pButton icon="pi pi-check" label="Sí" style="margin: 10px;" (click)="cd.accept()"
             class="p-button-sm p-button-info m-1"></button>
     </ng-template>
-</p-confirmDialog>
-<!-- <p-confirmDialog [style]="{ width: '450px' }" acceptLabel="Sí" rejectLabel="No" /> -->
+</p-confirmDialog> -->
