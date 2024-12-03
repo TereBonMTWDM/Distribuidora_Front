@@ -3,7 +3,7 @@
     <div class="col-md-12 ml-auto mr-auto">
         <div class="card" style="background-color: #d3f4ea;">
             <div class="card-header card-header-info text-center">
-                <h2 class="card-title">Productos</h2>
+                <h2 class="card-title">Proveedores</h2>
             </div>
 
             <div class="card-body">
@@ -20,20 +20,20 @@
 
             <div class="card-body">
                 <div class="row">
-                <div class="col-md-12">
-                        <p-table #dt [value]="productos" editMode="row" [rows]="10" [paginator]="true"
-                            [globalFilterFields]="['claveProducto']" [rowHover]="true" dataKey="id"
+                    <div class="col-md-12">
+                        <p-table #dt [value]="proveedores" editMode="row" [rows]="10" [paginator]="true"
+                            [globalFilterFields]="['nombre', 'descripcion', 'notas']" [rowHover]="true" dataKey="id"
                             currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
                             [showCurrentPageReport]="true" styleClass="p-datatable-sm" responsiveLayout="stack"
                             [rowsPerPageOptions]="[5, 10, 20]">
                             <ng-template pTemplate="caption">
                                 <div class="grid">
-                                    <div class="col-4 sm:flex-nowrap align-items-rigth">
+                                    <div class="col-6 sm:flex-nowrap align-items-rigth">
                                         <span class="p-input-icon-left w-full">
                                             <i class="pi pi-search"></i>
                                             <input pInputText type="text" [(ngModel)]="searchValue"
                                                 (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                                                placeholder="Buscar por clave interna del producto" class="w-full"
+                                                placeholder="Buscar por nombre del proveedor, descripción o contenido de notas" class="w-full"
                                                 (blur)="onBlurSearch($event)" />
                                         </span>
                                     </div>
@@ -42,72 +42,50 @@
                                         <p-button label="" [outlined]="true" icon="pi pi-filter-slash"
                                             (onClick)="clear(dt)" pTooltip="Limpiar filtro" />
                                     </div>
-                                    <div class="col-3">
-                                        <p-dropdown id="tipoProducto" name="tipoProducto" optionLabel="nombre"
-                                            [options]="tiposProductos" dataKey="id" appendTo="body"
-                                            (onChange)="selectTipo($event)" [showClear]="true"
-                                            placeholder="-Selecciona el tipo de producto-"
-                                            emptyFilterMessage="Sin resultados">
-
-                                            <ng-template pTemplate="selectedItem">
-                                                <div *ngIf="tipoProducto">
-                                                    <div style="font-weight: bolder;">{{ tipoProducto.nombre }}</div>
-                                                </div>
-                                            </ng-template>
-
-                                            <ng-template let-item pTemplate="item">
-                                                <div>{{ item.nombre }}</div>
-                                            </ng-template>
-                                        </p-dropdown>
-                                    </div>
-                                    <div class="col-3 d-flex justify-content-end">
-                                        <button pButton type="button" label="Buscar" icon="pi pi-save"
-                                            (click)="Buscar()" class="p-button-sm p-button-default m-1"></button>
-                                    </div>
-                                   
                                 </div>
                             </ng-template>
                             <ng-template pTemplate="header">
                                 <!-- !-- ***Encabezados -- -->
                                 <tr>
-                                    <th pSortableColumn="nombre">Producto <p-sortIcon field="nombre"></p-sortIcon></th>
-                                    <th pSortableColumn="clave">Clave <p-sortIcon field="clave"></p-sortIcon></th>
-                                    <th pSortableColumn="precio">Precio <p-sortIcon field="precio"></p-sortIcon></th>
-                                    <th style="width:450px">Opciones</th>
+                                    <th pSortableColumn="nombre">Proveedor <p-sortIcon field="nombre"></p-sortIcon></th>
+                                    <th pSortableColumn="descripcion">Descripción <p-sortIcon field="descripcion"></p-sortIcon></th>
+                                    <th pSortableColumn="totalCompras">Total de compras <p-sortIcon field="totalCompras"></p-sortIcon></th>
+                                    <th pSortableColumn="notas">Notas<p-sortIcon field="notas"></p-sortIcon></th>
+                                    <th style="width:250px">Opciones</th>
                                 </tr>
 
                             </ng-template>
                             <ng-template pTemplate="body" let-item>
                                 <tr [pEditableRow]="item" #itemProducto>
                                     <td>{{ item.nombre }}</td>
-                                    <td>{{ item.clave}}</td>
-                                    <td>$ {{ item.precio | currency:'MXN':'symbol':'1.2-2'}}</td>
+                                    <td>{{ item.descripcion}}</td>
+                                    <td>{{ item.totalCompras}}</td>
+                                    <td>{{ item.notas}}</td>
+                                    
 
-                                    <td style="width:450px">
-                                        
+                                    <td style="width:250px">
+
                                         <button pButton pRipple type="button" icon="pi pi-pencil"
-                                        (click)="OpenDialog(item)"
-                                        class="p-button-rounded p-button-text p-button-default"></button>
-                                        
+                                            (click)="OpenDialog(item)"
+                                            class="p-button-rounded p-button-text p-button-default"></button>
+
                                         <button pButton pRipple type="button" icon="pi pi-trash" (click)="Delete(item)"
-                                        class="p-button-rounded p-button-text p-button-danger"></button>
-                                        
-                                        <button pButton type="button" label="Proveedores" icon="pi pi-angle-double-right"
-                                            (click)="goProveedores(item)" class="p-button-sm p-button-default m-1"></button>
+                                            class="p-button-rounded p-button-text p-button-danger"></button>
+
                                     </td>
                                 </tr>
                             </ng-template>
 
                             <ng-template pTemplate="summary">
                                 <div class="p-d-flex p-ai-center p-jc-between">
-                                    En total hay {{productos ? productos.length : 0 }} registros.
+                                    En total hay {{proveedores ? proveedores.length : 0 }} registros.
                                 </div>
                             </ng-template>
                         </p-table>
                     </div>
 
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 </div>
@@ -115,8 +93,7 @@
 <p-dialog header="Detalle del Producto" [modal]="true" [(visible)]="detalleShow" [style]="{ width: '90rem' }"
     [styleClass]="'dialog-container'" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true"
     appendTo="body">
-    <app-producto-detail [producto]="producto" (onReturn)="onDialog($event)"></app-producto-detail>
-
+    <app-proveedor-detail [proveedor]="proveedor" (onReturn)="onDialog($event)"></app-proveedor-detail>
 </p-dialog>
 
 <p-confirmDialog #cd [style]="{width: '50vw'}">

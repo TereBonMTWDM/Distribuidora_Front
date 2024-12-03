@@ -37,22 +37,29 @@ export class ProductoDetailComponent implements OnInit {
   constructor(
     private productoSvc: ProductosService, private tiposProductosSvc: TipoProductoService, private prodProvSvc: ProdProveedorService
     , private messageService: MessageService, private confirmationService: ConfirmationService
-  ) { 
-   
-  }
+  ) { }
 
-  ngOnChanges(changes: SimpleChanges){
+  ngOnChanges(changes: SimpleChanges) {
     if (!!changes.producto && !!changes.producto.currentValue) {
       this.producto = changes.producto.currentValue;
       console.log('producto detail: ', this.producto);
 
-      if(this.producto.id){
-        this.getProducto();
-        
+      if (this.producto.id) {
+        this.tipoProducto = this.tiposProductos.find(x => x.id === Number(this.producto.idTipoProducto));
+
+        this.formulario = new FormGroup({
+          clave: new FormControl(this.producto.clave),
+          nombre: new FormControl(this.producto.nombre),
+          tipoProducto: new FormControl(this.producto.tipoProducto),
+          precio: new FormControl(this.producto.precio)
+        });
+
+        this.LoadProdProv(this.producto.clave, this.producto.idTipoProducto);
+
       }
-      
+
     }
-    else{
+    else {
       this.formulario = new FormGroup({
         clave: new FormControl(''),
         nombre: new FormControl(''),
@@ -69,20 +76,8 @@ export class ProductoDetailComponent implements OnInit {
     this.LoadTiposProductos();
   }
 
-  getProducto(){
-    this.tipoProducto = this.tiposProductos.find(x => x.id === Number(this.producto.idTipoProducto));
-    
-    this.formulario = new FormGroup({
-      clave: new FormControl(this.producto.clave),
-      nombre: new FormControl(this.producto.nombre),
-      tipoProducto: new FormControl(this.producto.tipoProducto),
-      precio: new FormControl(this.producto.precio)
-    });
 
-    this.LoadProdProv(this.producto.clave, this.producto.idTipoProducto);
-  }
-
-  async LoadProdProv(claveProducto?: string, tipo?: number ) {
+  async LoadProdProv(claveProducto?: string, tipo?: number) {
     this.prodProvSvc.GetProveedorByProducto(claveProducto, tipo).subscribe((result: any) => {
       if (result.complete) {
         this.proveedores = result.data;
@@ -103,12 +98,12 @@ export class ProductoDetailComponent implements OnInit {
     });
   }
 
-  async onSave(form: NgForm){
+  async onSave(form: NgForm) {
     let result: any;
-    if(this.formulario.valid){
+    if (this.formulario.valid) {
       const obj = this.formulario.value;
       console.log('>>>obj: ', obj);
-      
+
       this.producto = {
         id: this.producto?.id,
         clave: obj.clave,
@@ -120,7 +115,7 @@ export class ProductoDetailComponent implements OnInit {
 
       result = await firstValueFrom(this.productoSvc.Save(this.producto));
 
-      this.onReturn.emit(result);      
+      this.onReturn.emit(result);
     }
 
   }
@@ -139,14 +134,13 @@ export class ProductoDetailComponent implements OnInit {
   //   this.detalleShowEdit = true;
   // }
 
-  onDialog(event: any)
-  {
+  onDialog(event: any) {
     console.log('event: ', event);
-    
+
 
   }
 
-  Delete(item: Producto){
+  Delete(item: Producto) {
     console.log('item a eliminar: ', item);
 
     this.confirmationService.confirm({
@@ -169,7 +163,7 @@ export class ProductoDetailComponent implements OnInit {
       }
 
     });
-    
+
 
   }
 

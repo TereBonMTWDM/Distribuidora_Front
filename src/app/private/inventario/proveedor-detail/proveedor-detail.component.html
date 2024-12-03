@@ -1,0 +1,68 @@
+<p-toast></p-toast>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form [formGroup]="formulario" #form="ngForm" class="form-horizontal" (submit)="onSave(form)">
+                            <div class="card" style="background-color: rgb(240, 247, 248);">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Datos del Proveedor</h4>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="row">
+                                        
+                                        <div class="col-2">
+                                            <label for="nombre">Nombre del proveedor</label>
+                                            <input id="nombre" name="nombre" type="text"
+                                                class="form-control" formControlName="nombre"
+                                                style="font-weight: bold;">
+                                            <small
+                                                *ngIf="formulario.get('nombre')?.invalid && formulario.get('nombre')?.touched"
+                                                class="text-danger">
+                                                <br> El nombre es requerido
+                                            </small>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label for="descripcion">Descripción</label>
+                                            <input id="descripcion" name="descripcion" type="text"
+                                                class="form-control" formControlName="descripcion"
+                                                style="font-weight: bold;">
+                                            <small
+                                                *ngIf="formulario.get('descripcion')?.invalid && formulario.get('descripcion')?.touched"
+                                                class="text-danger">
+                                                <br> La descripción es requerida
+                                            </small>
+                                        </div>
+
+                                       
+
+                                        <div class="col-2">
+                                            <label for="notas">Notas</label>
+                                            <input id="notas" name="notas" type="text"
+                                                class="form-control" formControlName="notas"
+                                                style="font-weight: bold;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-12 d-flex justify-content-end">
+                                    <button pButton type="submit" label="Guardar" icon="pi pi-clipboard"
+                                        [disabled]="!formulario.valid"
+                                        class="p-button-sm p-button-default m-1"></button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

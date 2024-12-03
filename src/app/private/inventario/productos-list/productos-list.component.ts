@@ -38,16 +38,8 @@ export class ProductosListComponent implements OnInit {
 
   async LoadProductos(claveProducto?: string, tipo?: number ) {
     this.productoSvc.GetProductos(claveProducto, tipo).subscribe((result: any) => {
-      // console.log('prods: ', result);
-
       if (result.complete) {
         this.productos = result.data;
-        // if(this.productos.length = 0){
-        //   this.isData = true;
-        // }
-        // else{
-        //   this.isData = false;
-        // }
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar obtener los productos. Error:' + result.errors, life: 7000 });
       }
@@ -56,8 +48,6 @@ export class ProductosListComponent implements OnInit {
 
   async LoadTiposProductos() {
     this.tiposProductosSvc.GetProductos().subscribe((result: any) => {
-      // console.log('tipos: ', result);
-
       if (result.complete) {
         this.tiposProductos = result.data;
       } else {
@@ -67,14 +57,10 @@ export class ProductosListComponent implements OnInit {
   }
 
   goProveedores(item: Producto){
-    console.log('>>> prod: ', item);
-
     this.router.navigate(['/inventario/proveedor-producto'], {
       queryParams: { clave: item.clave, 
         tipo: item.idTipoProducto }
     });
-    
-    // this.router.navigate(['/inventario/proveedor-producto/', item.id])
   }
 
   selectTipo(event: any) {

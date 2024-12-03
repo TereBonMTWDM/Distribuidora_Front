@@ -16,7 +16,7 @@
         "icontype": "store",
         "collapse": "proveedores",
         "children": [
-            {"path": "lista-proveedores", "title": "Lista de Productos", "ab":"L"}
+            {"path": "lista-proveedores", "title": "Lista de Proveedores", "ab":"L"}
         ]
     }
 ]

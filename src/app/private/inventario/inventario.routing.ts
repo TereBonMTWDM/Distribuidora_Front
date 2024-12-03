@@ -3,7 +3,7 @@ import { AuthGuard } from 'src/app/guards/auth.guard';
 import { ProductosListComponent } from './productos-list/productos-list.component';
 import { ProductoDetailComponent } from './producto-detail/producto-detail.component';
 import { ProvByProductoComponent } from './prov-by-producto/prov-by-producto.component';
-import { ProveedoresListComponent } from 'src/app/proveedores-list/proveedores-list.component';
+import { ProveedoresListComponent } from 'src/app/private/inventario/proveedores-list/proveedores-list.component';
 
 export const InventarioRoutingModule: Routes = [
     {
