@@ -44,6 +44,8 @@ export class ProvByProductoComponent implements OnInit {
     this.prodProvSvc.GetProveedorByProducto(claveProducto, tipo).subscribe((result: any) => {
       if (result.complete) {
         this.proveedores = result.data;
+        console.log('prov: ', this.proveedores);
+        
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar obtener los proveedores por producto. Error:' + result.errors, life: 7000 });
       }

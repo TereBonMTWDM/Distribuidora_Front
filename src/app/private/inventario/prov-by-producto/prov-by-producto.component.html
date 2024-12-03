@@ -1,4 +1,4 @@
-<!-- <p-toast></p-toast> -->
+<p-toast></p-toast>
 <div class="row">
     <div class="col-md-12 ml-auto mr-auto">
         <div class="card" style="background-color: #d3f4ea;">
@@ -10,7 +10,7 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <button pButton type="button" label="Regresar" pTooltip="al listado de Pólizas"
+                            <button pButton type="button" label="Regresar" pTooltip="al listado de Productos"
                                 (click)="toBack()" icon="pi pi-angle-double-left" class="p-button-sm"></button>
                         </div>
                         <div class="col-md-12 col-sm-12 d-flex justify-content-end">
@@ -44,6 +44,7 @@
                                     <th pSortableColumn="costo">Costo <p-sortIcon
                                             field="costo" style="width:550px"></p-sortIcon>
                                     </th>
+                                    <th>Total de compras</th>
                                     <th style="width:250px">Opciones</th>
                                 </tr>
 
@@ -54,6 +55,7 @@
                                     <td>{{ item.claveProveedor}}</td>
                                     <td>$ {{ item.costo | currency:'MXN':'symbol':'1.2-2'}}
                                     </td>
+                                    <td>{{item.totalCompras}}</td>
                                     
                                     <td style="width:250px">
                                         <button pButton pRipple type="button" icon="pi pi-pencil"
@@ -85,7 +87,7 @@
 <p-dialog header="Detalle del Proveedor y Producto" [modal]="true" [(visible)]="detalleShow" [style]="{ width: '90rem' }"
     [styleClass]="'dialog-container'" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true"
     appendTo="body">
-     <app-prod-proveedor-form [proveedor]="proveedor" (onReturn)="onDialog($event)"></app-prod-proveedor-form>
+     <app-prod-proveedor-form [prodProveedor]="proveedor" (onReturn)="onDialog($event)"></app-prod-proveedor-form>
 
 </p-dialog>
 

@@ -32,6 +32,8 @@ export class ProdProveedorService {
   }
 
   Save(item: ProdProveedor) : Observable<Result>{
+    console.log('item a save: ', item);
+    
     if(item.nombreProveedor){
       if(item.id === undefined){ 
         // Save:
@@ -50,7 +52,7 @@ export class ProdProveedorService {
   }
 
   Delete(id: number) : Observable<Result>{
-    return this.http.delete<Result>(`${this.api}Delete?id=${id}`).pipe(
+    return this.http.delete<Result>(`${this.api}Delete/${id}`).pipe(
       map(res => res as Result)
     );
   }

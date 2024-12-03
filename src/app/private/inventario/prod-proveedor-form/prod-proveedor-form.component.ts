@@ -19,14 +19,14 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
 })
 export class ProdProveedorFormComponent {
   // @Input() producto: Producto;
-  @Input('proveedor') prodProveedor: ProdProveedor;
+  @Input() prodProveedor: ProdProveedor;
   @Output() onReturn = new EventEmitter<{}>();
   proveedor: Proveedor;
   proveedores: Proveedor[] = [];
 
   formulario: FormGroup = new FormGroup({
-    id: new FormControl(''),
-    nombreProveedor: new FormControl(''),
+    // id: new FormControl(''),
+    proveedor: new FormControl(''),
     claveProveedor: new FormControl(''),
     costo: new FormControl('')
 
@@ -49,8 +49,8 @@ export class ProdProveedorFormComponent {
       }
       else {
         this.formulario = new FormGroup({
-          id: new FormControl(''),
-          nombreProveedor: new FormControl(''),
+          // id: new FormControl(''),
+          proveedor: new FormControl(''),
           claveProveedor: new FormControl(''),
           costo: new FormControl('')
         });
@@ -59,6 +59,7 @@ export class ProdProveedorFormComponent {
   }
 
   ngOnInit(): void {
+    this.formulario.reset();
     this.LoadProveedores();
   }
 
@@ -69,13 +70,24 @@ export class ProdProveedorFormComponent {
       const obj = this.formulario.value;
       console.log('>>>obj: ', obj);
 
-      // this.proveedor = {
-      //   id: obj.id,
-      //   claveProducto: this.proveedor.claveProveeor,
-      //   nombreProveedor: this.proveedor.nombreProveedor
+      this.prodProveedor = {
+        id: this.prodProveedor.id,
+        idProducto: this.prodProveedor.idProducto,
+        claveProducto: this.prodProveedor.claveProducto,
+        nombreProducto: this.prodProveedor.nombreProducto,
+        idTipoProducto: this.prodProveedor.idTipoProducto,
+        precio: this.prodProveedor.precio,
 
-      // }
-      result = await firstValueFrom(this.prodProveedorSvc.Save(obj));
+        idProveedor: obj.proveedor.id,
+        nombreProveedor: obj.proveedor.nombre,
+        claveProveedor: obj.claveProveedor,
+        costo: obj.costo,
+        notas: '' //obj.notas
+      }
+
+      console.log('>>>prodProveedor: ', this.prodProveedor);
+
+      result = await firstValueFrom(this.prodProveedorSvc.Save(this.prodProveedor));
       console.log('>>>result', result);
       
 
@@ -91,9 +103,16 @@ export class ProdProveedorFormComponent {
 
 
   getProveedor() {
+    this.proveedor = this.proveedores.find(x => x.id === Number(this.prodProveedor.idProveedor));
+
+
+
+
+
     this.formulario = new FormGroup({
-      id: new FormControl(this.prodProveedor.id),
-      nombreProveedor: new FormControl(this.prodProveedor.nombreProveedor),
+      // id: new FormControl(this.prodProveedor.id),
+      //nombreProveedor: new FormControl(this.prodProveedor.nombreProveedor),
+      proveedor: new FormControl(this.proveedor),
       claveProveedor: new FormControl(this.prodProveedor.claveProveedor),
       costo: new FormControl(this.prodProveedor.costo)
     });

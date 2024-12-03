@@ -1,13 +1,16 @@
 export interface ProdProveedor
 {
     id?: number;
+    idProducto?: number;
     claveProducto?: string;
     nombreProducto?: string;
     idTipoProducto?: number;
     tipoProducto?: string;
-    precioProducto?: number;
+    precio?: number;
 
+    idProveedor?: number;
     nombreProveedor?: string;
     claveProveedor?: string;
     costo?: number;
+    notas?: string;
 }

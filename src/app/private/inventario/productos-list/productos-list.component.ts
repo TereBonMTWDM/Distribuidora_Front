@@ -70,7 +70,8 @@ export class ProductosListComponent implements OnInit {
     console.log('>>> prod: ', item);
 
     this.router.navigate(['/inventario/proveedor-producto'], {
-      queryParams: { clave: item.clave, tipo: item.idTipoProducto }
+      queryParams: { clave: item.clave, 
+        tipo: item.idTipoProducto }
     });
     
     // this.router.navigate(['/inventario/proveedor-producto/', item.id])
