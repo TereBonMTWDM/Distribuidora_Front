@@ -1,7 +1,8 @@
-import { Component, Input, input, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, input, OnInit, Output, SimpleChange, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { firstValueFrom } from 'rxjs';
 import { ProdProveedor } from 'src/app/models/prod-proveedor';
 import { Producto } from 'src/app/models/producto';
 import { TipoProducto } from 'src/app/models/tipoProducto';
@@ -19,7 +20,7 @@ import { TipoProductoService } from 'src/app/services/tipo-producto.service';
 })
 export class ProductoDetailComponent implements OnInit {
   @Input() producto: Producto;
-  // productos: Producto[];
+  @Output() onReturn = new EventEmitter<{}>();
   tipoProducto: TipoProducto;
   tiposProductos: TipoProducto[];
   proveedores: ProdProveedor[];
@@ -28,8 +29,8 @@ export class ProductoDetailComponent implements OnInit {
   formulario: FormGroup = new FormGroup({
     clave: new FormControl(''),
     nombre: new FormControl(''),
-    tipoProducto: new FormControl('')
-
+    tipoProducto: new FormControl(''),
+    precio: new FormControl('')
   });
 
 
@@ -49,16 +50,17 @@ export class ProductoDetailComponent implements OnInit {
         this.getProducto();
         
       }
-      else{
-        this.formulario = new FormGroup({
-          clave: new FormControl(''),
-          nombre: new FormControl(''),
-          tipoProducto: new FormControl('')
       
-        });
+    }
+    else{
+      this.formulario = new FormGroup({
+        clave: new FormControl(''),
+        nombre: new FormControl(''),
+        tipoProducto: new FormControl(''),
+        precio: new FormControl('')
+      });
+      this.proveedores = null;
 
-      }
-      
     }
 
   }
@@ -73,7 +75,8 @@ export class ProductoDetailComponent implements OnInit {
     this.formulario = new FormGroup({
       clave: new FormControl(this.producto.clave),
       nombre: new FormControl(this.producto.nombre),
-      tipoProducto: new FormControl(this.producto.tipoProducto)
+      tipoProducto: new FormControl(this.producto.tipoProducto),
+      precio: new FormControl(this.producto.precio)
     });
 
     this.LoadProdProv(this.producto.clave, this.producto.idTipoProducto);
@@ -100,7 +103,25 @@ export class ProductoDetailComponent implements OnInit {
     });
   }
 
-  onSave(form: NgForm){
+  async onSave(form: NgForm){
+    let result: any;
+    if(this.formulario.valid){
+      const obj = this.formulario.value;
+      console.log('>>>obj: ', obj);
+      
+      this.producto = {
+        id: this.producto?.id,
+        clave: obj.clave,
+        nombre: obj.nombre,
+        idTipoProducto: obj.tipoProducto.id,
+        tipoProducto: obj.tipoProducto.nombre,
+        precio: obj.precio
+      }
+
+      result = await firstValueFrom(this.productoSvc.Save(this.producto));
+
+      this.onReturn.emit(result);      
+    }
 
   }
 
@@ -125,11 +146,11 @@ export class ProductoDetailComponent implements OnInit {
 
   }
 
-  Delete(item: ProdProveedor){
+  Delete(item: Producto){
     console.log('item a eliminar: ', item);
 
     this.confirmationService.confirm({
-      message: '¿Estás seguro de eliminar la asignación del Proveedor con el Producto <strong>' + item.nombreProveedor +
+      message: '¿Estás seguro de eliminar el Producto <strong>' + item.nombre +
         '</strong>?',
       header: 'Eliminar producto',
       icon: 'pi pi-exclamation-triangle',
@@ -138,7 +159,7 @@ export class ProductoDetailComponent implements OnInit {
           if (res.complete) {
             this.proveedores = this.proveedores.filter((val) => val.id !== item.id);
             this.producto = {};
-            this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Registro eliminado', life: 3000 });
+            this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Registro eliminado', life: 7000 });
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar eliminar el registro. Error:' + res.errors, life: 7000 });
           }

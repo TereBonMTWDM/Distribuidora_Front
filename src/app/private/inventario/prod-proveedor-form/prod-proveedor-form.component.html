@@ -8,9 +8,6 @@
                         <p>Captura o revisa la siguiente información</p>
                         <form [formGroup]="formulario" #form="ngForm" class="form-horizontal" (submit)="onSave(form)">
                             <div class="card" style="background-color: rgb(240, 247, 248);">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Datos del Proveedor</h4>
-                                </div>
                                 <div class="card-body ">
                                     <div class="row">
                                         <div class="col-4">
@@ -54,7 +51,7 @@
 
                                         <div class="col-4">
                                             <label for="costo">Costo del Producto</label>
-                                            <input id="costo" name="costo" type="text" class="form-control"
+                                            <input id="costo" name="costo" type="number" class="form-control"
                                                 formControlName="costo" style="font-weight: bold;">
                                             <small
                                                 *ngIf="formulario.get('costo')?.invalid && formulario.get('costo')?.touched"

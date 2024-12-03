@@ -32,7 +32,7 @@ export class ProductosListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.LoadProductos('elec001', 1); // ejemplo para inicilizar
+    this.LoadProductos(); //'elec001', 1 ejemplo para inicilizar
     this.LoadTiposProductos();
   }
 
@@ -104,6 +104,15 @@ export class ProductosListComponent implements OnInit {
   onDialog(event: any)
   {
     console.log('event: ', event);
+
+    this.detalleShow = false;
+    if (event.complete) {
+      this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: event.message, life: 7000 });
+      this.LoadProductos(event.data.clave, event.data.idTipoProducto);
+    }
+    else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar guardar el producto. Error:' + event.errors, life: 7000 });
+    }
     
 
   }
@@ -121,7 +130,7 @@ export class ProductosListComponent implements OnInit {
           if (res.complete) {
             this.productos = this.productos.filter((val) => val.id !== item.id);
             this.producto = {};
-            this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Registro eliminado', life: 3000 });
+            this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Registro eliminado', life: 7000 });
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar eliminar el producto. Error:' + res.errors, life: 7000 });
           }

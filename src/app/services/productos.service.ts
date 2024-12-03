@@ -31,6 +31,8 @@ export class ProductosService {
   }
 
   Save(item: Producto) : Observable<Result>{
+    console.log('>> producto a guardar: ', item);
+    
     if(item.clave?.trim()){
       if(item.id === undefined){ 
         // Save:

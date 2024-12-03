@@ -14,6 +14,27 @@
                                 <div class="card-body ">
                                     <div class="row">
                                         <div class="col-4">
+                                            <label>Tipo de Producto</label> <br>
+                                            <p-dropdown id="tipoProducto" name="tipoProducto" optionLabel="nombre"
+                                                [options]="tiposProductos" dataKey="id" appendTo="body"
+                                                [(ngModel)]="tipoProducto" (onChange)="selectTipo($event)"
+                                                [showClear]="true" placeholder="-Selecciona el tipo de producto-"
+                                                emptyFilterMessage="Sin resultados">
+
+                                                <ng-template pTemplate="selectedItem">
+                                                    <div *ngIf="tipoProducto">
+                                                        <div style="font-weight: bolder;">{{ tipoProducto.nombre }}
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+
+                                                <ng-template let-item pTemplate="item">
+                                                    <div>{{ item.nombre }}</div>
+                                                </ng-template>
+                                            </p-dropdown>
+                                        </div>
+
+                                        <div class="col-2">
                                             <label for="clave">Clave del Producto</label>
                                             <input id="clave" name="clave" type="text"
                                                 class="form-control" formControlName="clave"
@@ -37,48 +58,23 @@
                                             </small>
                                         </div>
 
-                                        <div class="col-4">
-                                            <label>Tipo de Producto</label> <br>
-                                            <p-dropdown id="tipoProducto" name="tipoProducto" optionLabel="nombre"
-                                                [options]="tiposProductos" dataKey="id" appendTo="body"
-                                                [(ngModel)]="tipoProducto" (onChange)="selectTipo($event)"
-                                                [showClear]="true" placeholder="-Selecciona el tipo de producto-"
-                                                emptyFilterMessage="Sin resultados">
+                                       
 
-                                                <ng-template pTemplate="selectedItem">
-                                                    <div *ngIf="tipoProducto">
-                                                        <div style="font-weight: bolder;">{{ tipoProducto.nombre }}
-                                                        </div>
-                                                    </div>
-                                                </ng-template>
-
-                                                <ng-template let-item pTemplate="item">
-                                                    <div>{{ item.nombre }}</div>
-                                                </ng-template>
-                                            </p-dropdown>
+                                        <div class="col-2">
+                                            <label for="precio">Precio al público</label>
+                                            <input id="precio" name="precio" type="number"
+                                                class="form-control" formControlName="precio"
+                                                style="font-weight: bold;">
+                                            <small
+                                                *ngIf="formulario.get('precio')?.invalid && formulario.get('precio')?.touched"
+                                                class="text-danger">
+                                                <br> El precio es requerido.
+                                            </small>
                                         </div>
                                     </div>
                                 </div>
 
-
-                                <div class="card-body">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-6">
-                                                <h4 class="card-title">Proveedores que han surtido el producto</h4>
-                                            </div>
-                                            <!-- <div class="col-md-6 col-sm-6 d-flex justify-content-end ">
-                                                <button pButton pRipple (click)="OpenDialog()" icon="pi pi-plus"
-                                                    pTooltip="Agregar proveedor al producto" tooltipPosition="left"
-                                                    class="p-button-sm p-button-success m-1"></button>
-                                            </div> -->
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
-                                <div class="card-body">
+                                <div class="card-body" *ngIf="proveedores?.length > 0" style="background-color: aquamarine;">
                                     <div class="row">
                                         <div class="col-md-12">
                                             <p-table #dt [value]="proveedores" editMode="row" [rows]="10"
@@ -100,7 +96,7 @@
                                                         <th pSortableColumn="costo">Costo <p-sortIcon
                                                                 field="costo" style="width:550px"></p-sortIcon>
                                                         </th>
-                                                        <th style="width:250px">Opciones</th>
+                                                        <!-- <th style="width:250px">Opciones</th> -->
                                                     </tr>
 
                                                 </ng-template>
@@ -111,7 +107,7 @@
                                                         <td>$ {{ item.costo | currency:'MXN':'symbol':'1.2-2'}}
                                                         </td>
                                                         
-                                                        <td style="width:250px">
+                                                        <!-- <td style="width:250px">
                                                             <button pButton pRipple type="button" icon="pi pi-pencil"
                                                                 (click)="OpenDialog(item)"
                                                                 class="p-button-rounded p-button-text p-button-default"></button>
@@ -120,7 +116,7 @@
                                                                 (click)="Delete(item)"
                                                                 class="p-button-rounded p-button-text p-button-danger"></button>
 
-                                                        </td>
+                                                        </td> -->
                                                     </tr>
                                                 </ng-template>
 
@@ -133,6 +129,10 @@
                                         </div>
 
                                     </div>
+                                </div>
+
+                                <div *ngIf="proveedores?.length == 0">
+                                    *No hay proveedores
                                 </div>
                             </div>
 

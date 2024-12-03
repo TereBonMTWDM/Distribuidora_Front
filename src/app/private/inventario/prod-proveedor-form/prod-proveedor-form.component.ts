@@ -18,7 +18,7 @@ import { ProveedoresService } from 'src/app/services/proveedores.service';
   providers: [MessageService, ConfirmationService]
 })
 export class ProdProveedorFormComponent {
-  // @Input() producto: Producto;
+  @Input() producto: Producto;
   @Input() prodProveedor: ProdProveedor;
   @Output() onReturn = new EventEmitter<{}>();
   proveedor: Proveedor;
@@ -39,27 +39,36 @@ export class ProdProveedorFormComponent {
 
 
   ngOnChanges(changes: SimpleChanges) {
+    if (!!changes.producto && !!changes.producto.currentValue) {
+      this.producto = changes.producto.currentValue;
+      console.log('producto detail: ', this.producto);
+
+      // this.LoadProdProveedores(this.producto.clave, this.producto.idTipoProducto);
+    }
+
     if (!!changes.prodProveedor && !!changes.prodProveedor.currentValue) {
       this.prodProveedor = changes.prodProveedor.currentValue;
       console.log('proveedor detail: ', this.prodProveedor);
 
       if (this.prodProveedor.id) {
         this.getProveedor();
+      }
 
-      }
-      else {
-        this.formulario = new FormGroup({
-          // id: new FormControl(''),
-          proveedor: new FormControl(''),
-          claveProveedor: new FormControl(''),
-          costo: new FormControl('')
-        });
-      }
+    }
+    else {
+      this.formulario = new FormGroup({
+        // id: new FormControl(''),
+        proveedor: new FormControl(''),
+        claveProveedor: new FormControl(''),
+        costo: new FormControl('')
+      });
     }
   }
 
   ngOnInit(): void {
     this.formulario.reset();
+
+    //this.LoadProdProveedores(this.prodProveedor?.claveProducto, this.prodProveedor?.idTipoProducto);
     this.LoadProveedores();
   }
 
@@ -69,27 +78,37 @@ export class ProdProveedorFormComponent {
     if (this.formulario.valid) {
       const obj = this.formulario.value;
       console.log('>>>obj: ', obj);
+      console.log('>>>prodProveedor-antes: ', this.prodProveedor);
 
-      this.prodProveedor = {
-        id: this.prodProveedor.id,
-        idProducto: this.prodProveedor.idProducto,
-        claveProducto: this.prodProveedor.claveProducto,
-        nombreProducto: this.prodProveedor.nombreProducto,
-        idTipoProducto: this.prodProveedor.idTipoProducto,
-        precio: this.prodProveedor.precio,
+      if (this.prodProveedor === undefined) {
+        this.prodProveedor = {
+          id: 0,
+          idProducto: this.producto.id,
+          
+          idProveedor: obj.proveedor.id,
+          claveProveedor: obj.claveProveedor,
+          costo: obj.costo,
+          notas: '' //obj.notas
+        }
 
-        idProveedor: obj.proveedor.id,
-        nombreProveedor: obj.proveedor.nombre,
-        claveProveedor: obj.claveProveedor,
-        costo: obj.costo,
-        notas: '' //obj.notas
+      }
+      else {
+        //Obj Update
+        this.prodProveedor = {
+          id: this.prodProveedor?.id,
+          idProducto: this.prodProveedor.id,// porque es el id de la tabla
+          idProveedor: obj.proveedor.id,
+          claveProveedor: obj.claveProveedor,
+          costo: obj.costo,
+          notas: '' //obj.notas
+        }
       }
 
       console.log('>>>prodProveedor: ', this.prodProveedor);
 
       result = await firstValueFrom(this.prodProveedorSvc.Save(this.prodProveedor));
       console.log('>>>result', result);
-      
+
 
       if (result.complete) {
         this.prodProveedor = result.data;
@@ -106,9 +125,6 @@ export class ProdProveedorFormComponent {
     this.proveedor = this.proveedores.find(x => x.id === Number(this.prodProveedor.idProveedor));
 
 
-
-
-
     this.formulario = new FormGroup({
       // id: new FormControl(this.prodProveedor.id),
       //nombreProveedor: new FormControl(this.prodProveedor.nombreProveedor),
@@ -118,24 +134,41 @@ export class ProdProveedorFormComponent {
     });
   }
 
+  LoadProdProveedores(clave: string, tipo: number) {
+    this.prodProveedorSvc.GetProveedorByProducto(clave, tipo).subscribe((result: any) => {
+      if (result.complete) {
+        this.prodProveedor = result.data.map((item: any) => ({
+          id: item.id,
+          idProducto: item.IdProducto,
+          idProveedor: item.IdProveedor,
+          clave: item.claveProveedor,
+          costo: item.costo,
+          notas: item.notas
+        }));
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar obtener los registros. Error:' + result.errors, life: 7000 });
+      }
+    });
+  }
+
   LoadProveedores() {
     this.proveedorSvc.GetProveedores().subscribe((result: any) => {
       if (result.complete) {
-          this.proveedores = result.data.map((item: any) => ({
-              id: item.id,
-              nombre: item.nombre,
-              descripcion: item.descripcion,
-              notas: item.notas,
-              totalCompras: item.totalCompras
-          }));
+        this.proveedores = result.data.map((item: any) => ({
+          id: item.id,
+          nombre: item.nombre,
+          descripcion: item.descripcion,
+          notas: item.notas,
+          totalCompras: item.totalCompras
+        }));
 
-          if (this.prodProveedor?.nombreProveedor) {
-            this.proveedor = this.proveedores.find(p => p.nombre === this.prodProveedor.nombreProveedor) || null;
+        if (this.prodProveedor?.nombreProveedor) {
+          this.proveedor = this.proveedores.find(p => p.nombre === this.prodProveedor.nombreProveedor) || null;
         }
       } else {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar obtener los registros. Error:' + result.errors, life: 7000 });
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar obtener los registros. Error:' + result.errors, life: 7000 });
       }
-  });
+    });
   }
 
 
@@ -147,7 +180,7 @@ export class ProdProveedorFormComponent {
     } else {
       this.proveedor = null;
     }
-    console.log('Proveedor seleccionado:', this.proveedor);
+    // console.log('Proveedor seleccionado:', this.proveedor);
 
 
     // if (event.value != null) {

@@ -115,16 +115,15 @@
 <p-dialog header="Detalle del Producto" [modal]="true" [(visible)]="detalleShow" [style]="{ width: '90rem' }"
     [styleClass]="'dialog-container'" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="true"
     appendTo="body">
-     <!-- (onReturn)="onDialog($event)" -->
-    <app-producto-detail [producto]="producto"></app-producto-detail>
+    <app-producto-detail [producto]="producto" (onReturn)="onDialog($event)"></app-producto-detail>
 
 </p-dialog>
 
-<!-- <p-confirmDialog #cd [style]="{width: '50vw'}">
+<p-confirmDialog #cd [style]="{width: '50vw'}">
     <ng-template pTemplate="footer">
         <button type="button" pButton icon="pi pi-times" label="No" style="margin: 10px;" (click)="cd.reject()"
             class="p-button-sm p-button-secondary m-1"></button>
         <button type="button" pButton icon="pi pi-check" label="Sí" style="margin: 10px;" (click)="cd.accept()"
             class="p-button-sm p-button-info m-1"></button>
     </ng-template>
-</p-confirmDialog> -->
+</p-confirmDialog>

@@ -34,8 +34,8 @@ export class ProdProveedorService {
   Save(item: ProdProveedor) : Observable<Result>{
     console.log('item a save: ', item);
     
-    if(item.nombreProveedor){
-      if(item.id === undefined){ 
+    if(item.claveProveedor){
+      if(item.id === 0){ 
         // Save:
         return this.http.post<Result>(`${this.api}Save`, item).pipe(
           map(res => res as Result)

@@ -7,6 +7,7 @@ import { AppPrimeModule } from 'src/app/modules/prime-ng/prime-ng.module';
 import { ProdProveedorService } from 'src/app/services/prod-proveedor.service';
 import { ProdProveedorFormComponent } from '../prod-proveedor-form/prod-proveedor-form.component';
 import { NgForm } from '@angular/forms';
+import { ProductosService } from 'src/app/services/productos.service';
 
 @Component({
   selector: 'app-prov-by-producto',
@@ -20,12 +21,13 @@ import { NgForm } from '@angular/forms';
 export class ProvByProductoComponent implements OnInit {
   clave: string | null = null;
   tipo: number | null = null;
-  proveedores: ProdProveedor[];
-  proveedor: ProdProveedor;
+  producto: Producto;
+  prodProveedores: ProdProveedor[];
+  prodProveedor: ProdProveedor;
   detalleShow: boolean = false;
 
   constructor(private route: ActivatedRoute
-    , private prodProvSvc: ProdProveedorService
+    , private productoSvc: ProductosService, private prodProvSvc: ProdProveedorService
     , private messageService: MessageService, private confirmationService: ConfirmationService
     , private router: Router
   ) {}
@@ -35,16 +37,28 @@ export class ProvByProductoComponent implements OnInit {
       this.clave = params['clave'];
       this.tipo = params['tipo'];
     });
-
+    this.LoadProducto(this.clave, this.tipo)
     this.LoadProdProv(this.clave, this.tipo)
 
+  }
+
+  async LoadProducto(claveProducto?: string, tipo?: number ) {
+    this.productoSvc.GetProductos(claveProducto, tipo).subscribe((result: any) => {
+      // console.log('prods: ', result);
+
+      if (result.complete) {
+        this.producto = result.data[0];
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar obtener el producto. Error:' + result.errors, life: 7000 });
+      }
+    });
   }
 
   async LoadProdProv(claveProducto?: string, tipo?: number ) {
     this.prodProvSvc.GetProveedorByProducto(claveProducto, tipo).subscribe((result: any) => {
       if (result.complete) {
-        this.proveedores = result.data;
-        console.log('prov: ', this.proveedores);
+        this.prodProveedores = result.data;
+        console.log('prod-prov: ', this.prodProveedores);
         
       } else {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar obtener los proveedores por producto. Error:' + result.errors, life: 7000 });
@@ -53,7 +67,7 @@ export class ProvByProductoComponent implements OnInit {
   }
 
   OpenDialog(item?: ProdProveedor){
-    this.proveedor = item;
+    this.prodProveedor = item;
 
     this.detalleShow = true;
   }
@@ -61,16 +75,16 @@ export class ProvByProductoComponent implements OnInit {
 
   Delete(item: ProdProveedor){
     this.confirmationService.confirm({
-      message: '¿Estás seguro de eliminar el proveedor para este producto <strong>' + item.nombreProveedor +
+      message: '¿Estás seguro de eliminar el proveedor para este producto <strong>' + item.nombreProducto +
         '</strong>?',
       header: 'Eliminar proveedor',
       icon: 'pi pi-exclamation-triangle',
       accept: () => {
         this.prodProvSvc.Delete(item.id).subscribe((res: any) => {
           if (res.complete) {
-            this.proveedores = this.proveedores.filter((val) => val.id !== item.id);
-            this.proveedor = {};
-            this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Registro eliminado', life: 3000 });
+            this.prodProveedores = this.prodProveedores.filter((val) => val.id !== item.id);
+            this.prodProveedor = {};
+            this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: 'Registro eliminado', life: 7000 });
           } else {
             this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar eliminar el proveedor del producto. Error:' + res.errors, life: 7000 });
           }
@@ -98,7 +112,7 @@ export class ProvByProductoComponent implements OnInit {
     
     this.detalleShow = false;
     if (event.complete) {
-      this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: event.message, life: 3000 });
+      this.messageService.add({ severity: 'success', summary: 'Exitoso', detail: event.message, life: 7000 });
     }
     else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Error al intentar guardar el proveedor. Error:' + event.errors, life: 7000 });
